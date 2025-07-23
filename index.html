@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Command Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .command-card {
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+            will-change: transform;
+        }
+        .command-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .copy-btn {
+            transition: background-color 0.15s ease-out;
+            will-change: background-color;
+        }
+        .copy-btn:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        .copy-btn-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+            pointer-events: none;
+            will-change: opacity, transform;
+        }
+        .copy-btn-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .copy-btn-toast.error {
+            background-color: #dc3545;
+        }
+        .hidden-section {
+            display: none !important;
+        }
+        .hidden-card {
+            display: none !important;
+        }
+        /* Improve search input performance */
+        #search-bar {
+            will-change: border-color;
+        }
+        /* Add loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            .command-card, .copy-btn, .copy-btn-toast {
+                transition: none;
+            }
+        }
+        /* Focus indicators */
+        .command-card:focus-within {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold leading-tight text-gray-900 text-center">
+                Git Command Cheat Sheet
+            </h1>
+            <p class="text-center text-gray-500 mt-2">
+                A quick reference for the most common Git commands. Click any command to copy it.
+            </p>
+        </div>
+        <!-- Search Bar -->
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+            <div class="relative">
+                <input 
+                    type="search" 
+                    id="search-bar" 
+                    placeholder="🔍 Search for commands (e.g., 'commit', 'branch', 'remote')..." 
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+                    autocomplete="off"
+                    aria-label="Search Git commands"
+                >
+                <div id="search-results-count" class="absolute right-3 top-3 text-sm text-gray-500" aria-live="polite"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Section: Important Commands -->
+                <section id="important-commands" class="md:col-span-2 lg:col-span-3">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-yellow-500 pb-2">⭐ Common Workflow</h2>
+                    <div class="command-card bg-white p-4 rounded-lg shadow">
+                        <p class="text-sm text-gray-600 mb-2">Stage, commit, and push all changes. Click "Copy All" and paste into your terminal.</p>
+                        <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git add .
+git commit -m "Describe your changes"
+git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 py-1 px-2 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy All</button></pre>
+                    </div>
+                </section>
+
+                <!-- Section: Setup & Init -->
+                <section id="setup">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-red-500 pb-2">Setup & Init</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Set a user name.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git config --global user.name "[firstname lastname]"</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Set a user email.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git config --global user.email "[valid-email]"</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Initialize a Git repository.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git init</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Clone a repository from a URL.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git clone [url]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Stage & Snapshot -->
+                <section id="stage">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-blue-500 pb-2">Stage & Snapshot</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Show modified files.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git status</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Add a file to the staging area.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git add [file]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                         <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Unstage a file.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git reset [file]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Commit staged content.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git commit -m "[descriptive message]"</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Branch & Merge -->
+                <section id="branch">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-green-500 pb-2">Branch & Merge</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">List all branches.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git branch</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Create a new branch.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git branch [branch-name]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Switch to another branch.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git checkout [branch-name]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Merge a branch into the current one.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git merge [branch]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Share & Update -->
+                <section id="share">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-purple-500 pb-2">Share & Update</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Add a remote repository alias.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git remote add [alias] [url]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Fetch branches from a remote.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git fetch [alias]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Merge a remote branch.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git merge [alias]/[branch]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Push commits to a remote branch.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git push [alias] [branch]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                         <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Fetch and merge from remote.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git pull</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section: Inspect & Compare -->
+                <section id="inspect">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-yellow-500 pb-2">Inspect & Compare</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Show commit history.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git log</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Show diff of unstaged changes.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git diff</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Show diff of staged changes.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git diff --staged</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Show object in human-readable format.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git show [SHA]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Section: Rewrite History -->
+                 <section id="rewrite">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-indigo-500 pb-2">Rewrite History</h2>
+                    <div class="space-y-4">
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Rebase current branch onto another.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git rebase [branch]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                        <div class="command-card bg-white p-4 rounded-lg shadow">
+                            <p class="text-sm text-gray-600 mb-2">Reset to a specific commit.</p>
+                            <pre class="bg-gray-100 p-3 rounded-md text-sm font-mono text-gray-900 relative overflow-x-auto"><code>git reset --hard [commit]</code><button class="copy-btn absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded-md text-xs" aria-label="Copy command" tabindex="0">Copy</button></pre>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="copy-btn-toast" role="alert" aria-live="assertive">
+        <span id="toast-message">Command copied to clipboard!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Performance optimization: Cache DOM elements
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const searchBar = document.getElementById('search-bar');
+            const searchResultsCount = document.getElementById('search-results-count');
+            const sections = document.querySelectorAll('main section');
+            
+            // Cache command data for faster search
+            const commandData = [];
+            sections.forEach(section => {
+                const cards = section.querySelectorAll('.command-card');
+                cards.forEach(card => {
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const command = card.querySelector('code').textContent.toLowerCase();
+                    commandData.push({
+                        element: card,
+                        section: section,
+                        description: description,
+                        command: command,
+                        searchText: description + ' ' + command
+                    });
+                });
+            });
+
+            // Modern clipboard API with fallback
+            async function copyToClipboard(text) {
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(text);
+                        return true;
+                    } else {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = text;
+                        textArea.style.position = 'fixed';
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        const success = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        return success;
+                    }
+                } catch (err) {
+                    console.error('Copy failed:', err);
+                    return false;
+                }
+            }
+
+            // Improved copy button functionality with better UX
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                // Mouse click handler
+                button.addEventListener('click', handleCopy);
+                
+                // Keyboard support (Enter and Space)
+                button.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleCopy.call(button, e);
+                    }
+                });
+
+                async function handleCopy(e) {
+                    e.preventDefault();
+                    const commandText = this.previousElementSibling.textContent.trim();
+                    const originalText = this.textContent;
+                    
+                    // Visual feedback
+                    this.textContent = 'Copying...';
+                    this.disabled = true;
+                    
+                    const success = await copyToClipboard(commandText);
+                    
+                    if (success) {
+                        this.textContent = 'Copied!';
+                        showToast('Command copied to clipboard!', 'success');
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.disabled = false;
+                        }, 1000);
+                    } else {
+                        this.textContent = 'Failed';
+                        showToast('Failed to copy command. Please try again.', 'error');
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.disabled = false;
+                        }, 2000);
+                    }
+                }
+            });
+
+            // Improved toast notification
+            let toastTimeout;
+            function showToast(message, type = 'success') {
+                if (toastTimeout) clearTimeout(toastTimeout);
+                
+                toastMessage.textContent = message;
+                toast.className = `copy-btn-toast ${type === 'error' ? 'error' : ''}`;
+                toast.classList.add('show');
+                
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, type === 'error' ? 3000 : 2000);
+            }
+
+            // Debounced search for better performance
+            let searchTimeout;
+            function debounce(func, delay) {
+                return function(...args) {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => func.apply(this, args), delay);
+                };
+            }
+
+            // Optimized search functionality
+            function performSearch(searchTerm) {
+                const term = searchTerm.toLowerCase().trim();
+                let totalVisible = 0;
+                let visibleSections = 0;
+                
+                // Track which sections have visible cards
+                const sectionVisibility = new Map();
+                
+                if (term === '') {
+                    // Show all if search is empty
+                    commandData.forEach(item => {
+                        item.element.classList.remove('hidden-card');
+                        if (!sectionVisibility.has(item.section)) {
+                            sectionVisibility.set(item.section, true);
+                        }
+                        totalVisible++;
+                    });
+                } else {
+                    // Filter based on search term
+                    commandData.forEach(item => {
+                        const isVisible = item.searchText.includes(term);
+                        
+                        if (isVisible) {
+                            item.element.classList.remove('hidden-card');
+                            sectionVisibility.set(item.section, true);
+                            totalVisible++;
+                        } else {
+                            item.element.classList.add('hidden-card');
+                        }
+                    });
+                }
+                
+                // Update section visibility
+                sections.forEach(section => {
+                    if (sectionVisibility.get(section)) {
+                        section.classList.remove('hidden-section');
+                        visibleSections++;
+                    } else {
+                        section.classList.add('hidden-section');
+                    }
+                });
+                
+                // Update search results count
+                if (term === '') {
+                    searchResultsCount.textContent = '';
+                } else {
+                    const commandText = totalVisible === 1 ? 'command' : 'commands';
+                    const sectionText = visibleSections === 1 ? 'section' : 'sections';
+                    searchResultsCount.textContent = `${totalVisible} ${commandText} in ${visibleSections} ${sectionText}`;
+                }
+            }
+
+            // Debounced search event listener
+            const debouncedSearch = debounce(performSearch, 150);
+            searchBar.addEventListener('input', (e) => {
+                debouncedSearch(e.target.value);
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Focus search bar with Ctrl+F or Cmd+F
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    searchBar.focus();
+                }
+                
+                // Clear search with Escape
+                if (e.key === 'Escape' && document.activeElement === searchBar) {
+                    searchBar.value = '';
+                    performSearch('');
+                    searchBar.blur();
+                }
+            });
+
+            // Initialize with all commands visible
+            performSearch('');
+            
+            // Add loading states and error handling
+            window.addEventListener('error', (e) => {
+                console.error('JavaScript error:', e.error);
+                showToast('An error occurred. Please refresh the page.', 'error');
+            });
+            
+            // Performance monitoring
+            if ('performance' in window) {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                        console.log(`Page loaded in ${loadTime}ms`);
+                    }, 0);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
