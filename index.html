@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git Command Cheat Sheet</title>
+    <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/2048px-Github-desktop-logo-symbol.svg.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,32 +78,127 @@
             outline: 2px solid #3b82f6;
             outline-offset: 2px;
         }
+        /* GitHub logo styling */
+        .github-logo {
+            transition: transform 0.3s ease-out;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        .github-logo:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+        /* Header layout improvements */
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+        /* Compact search bar styling */
+        #search-bar {
+            min-width: 200px;
+            max-width: 300px;
+        }
+        #search-bar:focus {
+            max-width: 350px;
+            transition: max-width 0.3s ease-out;
+        }
+        /* Clear button styling */
+        .clear-btn {
+            transition: opacity 0.2s ease-out, color 0.2s ease-out;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 2px;
+            line-height: 1;
+        }
+        .clear-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+        }
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+            .github-logo {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+        @media (max-width: 640px) {
+            .header-content h1 {
+                font-size: 1.25rem;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold leading-tight text-gray-900 text-center">
-                Git Command Cheat Sheet
-            </h1>
-            <p class="text-center text-gray-500 mt-2">
-                A quick reference for the most common Git commands. Click any command to copy it.
-            </p>
-        </div>
-        <!-- Search Bar -->
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
-            <div class="relative">
-                <input 
-                    type="search" 
-                    id="search-bar" 
-                    placeholder="🔍 Search for commands (e.g., 'commit', 'branch', 'remote')..." 
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
-                    autocomplete="off"
-                    aria-label="Search Git commands"
-                >
-                <div id="search-results-count" class="absolute right-3 top-3 text-sm text-gray-500" aria-live="polite"></div>
+        <div class="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-2">
+                <div class="header-content">
+                    <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/2048px-Github-desktop-logo-symbol.svg.png" 
+                        alt="GitHub Desktop Logo" 
+                        class="github-logo w-12 h-12 sm:w-10 sm:h-10"
+                        loading="lazy"
+                    >
+                    <div class="text-center sm:text-left">
+                        <h1 class="text-2xl sm:text-xl font-bold leading-tight text-gray-900">
+                            Git Command Cheat Sheet
+                        </h1>
+                        <p class="text-xs text-gray-500 mt-1 hidden sm:block">Click any command to copy it</p>
+                    </div>
+                </div>
+                <!-- Compact Search Bar -->
+                <div class="hidden md:block">
+                    <div class="relative">
+                        <input 
+                            type="search" 
+                            id="search-bar" 
+                            placeholder="🔍 Search commands..." 
+                            class="w-64 p-2 pr-8 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+                            autocomplete="off"
+                            aria-label="Search Git commands"
+                        >
+                        <button 
+                            id="clear-search" 
+                            class="clear-btn absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 hidden"
+                            aria-label="Clear search"
+                            type="button"
+                        >
+                            ✕
+                        </button>
+                        <div id="search-results-count" class="absolute right-2 top-2 text-xs text-gray-500" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Search Bar -->
+            <div class="md:hidden mt-2">
+                <div class="relative">
+                    <input 
+                        type="search" 
+                        id="search-bar-mobile" 
+                        placeholder="🔍 Search for commands..." 
+                        class="w-full p-2 pr-8 text-sm border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+                        autocomplete="off"
+                        aria-label="Search Git commands"
+                    >
+                    <button 
+                        id="clear-search-mobile" 
+                        class="clear-btn absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 hidden"
+                        aria-label="Clear search"
+                        type="button"
+                    >
+                        ✕
+                    </button>
+                    <div id="search-results-count-mobile" class="absolute right-2 top-2 text-xs text-gray-500" aria-live="polite"></div>
+                </div>
             </div>
         </div>
     </header>
@@ -271,7 +367,11 @@ git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gra
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
             const searchBar = document.getElementById('search-bar');
+            const searchBarMobile = document.getElementById('search-bar-mobile');
+            const clearButton = document.getElementById('clear-search');
+            const clearButtonMobile = document.getElementById('clear-search-mobile');
             const searchResultsCount = document.getElementById('search-results-count');
+            const searchResultsCountMobile = document.getElementById('search-results-count-mobile');
             const sections = document.querySelectorAll('main section');
             
             // Cache command data for faster search
@@ -279,15 +379,20 @@ git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gra
             sections.forEach(section => {
                 const cards = section.querySelectorAll('.command-card');
                 cards.forEach(card => {
-                    const description = card.querySelector('p').textContent.toLowerCase();
-                    const command = card.querySelector('code').textContent.toLowerCase();
-                    commandData.push({
-                        element: card,
-                        section: section,
-                        description: description,
-                        command: command,
-                        searchText: description + ' ' + command
-                    });
+                    const descriptionElement = card.querySelector('p');
+                    const codeElement = card.querySelector('code');
+                    
+                    if (descriptionElement && codeElement) {
+                        const description = descriptionElement.textContent.toLowerCase();
+                        const command = codeElement.textContent.toLowerCase();
+                        commandData.push({
+                            element: card,
+                            section: section,
+                            description: description,
+                            command: command,
+                            searchText: description + ' ' + command
+                        });
+                    }
                 });
             });
 
@@ -373,6 +478,26 @@ git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gra
                 }, type === 'error' ? 3000 : 2000);
             }
 
+            // Function to toggle clear button visibility
+            function toggleClearButton(input, clearBtn, hasValue) {
+                if (clearBtn) {
+                    if (hasValue && input.value.trim() !== '') {
+                        clearBtn.classList.remove('hidden');
+                    } else {
+                        clearBtn.classList.add('hidden');
+                    }
+                }
+            }
+
+            // Function to clear search
+            function clearSearch() {
+                if (searchBar) searchBar.value = '';
+                if (searchBarMobile) searchBarMobile.value = '';
+                toggleClearButton(searchBar, clearButton, false);
+                toggleClearButton(searchBarMobile, clearButtonMobile, false);
+                performSearch('');
+            }
+
             // Debounced search for better performance
             let searchTimeout;
             function debounce(func, delay) {
@@ -391,19 +516,30 @@ git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gra
                 // Track which sections have visible cards
                 const sectionVisibility = new Map();
                 
+                // Reset all sections and cards visibility
+                sections.forEach(section => {
+                    section.classList.remove('hidden-section');
+                    sectionVisibility.set(section, false);
+                });
+                
                 if (term === '') {
                     // Show all if search is empty
                     commandData.forEach(item => {
                         item.element.classList.remove('hidden-card');
-                        if (!sectionVisibility.has(item.section)) {
-                            sectionVisibility.set(item.section, true);
-                        }
+                        sectionVisibility.set(item.section, true);
                         totalVisible++;
                     });
                 } else {
-                    // Filter based on search term
+                    // Filter based on search term - improved matching
                     commandData.forEach(item => {
-                        const isVisible = item.searchText.includes(term);
+                        // Check if search term matches description, command, or any part of the text
+                        const isVisible = item.searchText.includes(term) || 
+                                        item.description.includes(term) || 
+                                        item.command.includes(term) ||
+                                        // Also check for partial word matches
+                                        item.searchText.split(' ').some(word => word.startsWith(term)) ||
+                                        // Check for git command specific matches
+                                        item.command.replace(/git\s+/, '').includes(term);
                         
                         if (isVisible) {
                             item.element.classList.remove('hidden-card');
@@ -427,33 +563,81 @@ git push origin main</code><button class="copy-btn absolute top-2 right-2 bg-gra
                 
                 // Update search results count
                 if (term === '') {
-                    searchResultsCount.textContent = '';
+                    if (searchResultsCount) searchResultsCount.textContent = '';
+                    if (searchResultsCountMobile) searchResultsCountMobile.textContent = '';
                 } else {
                     const commandText = totalVisible === 1 ? 'command' : 'commands';
                     const sectionText = visibleSections === 1 ? 'section' : 'sections';
-                    searchResultsCount.textContent = `${totalVisible} ${commandText} in ${visibleSections} ${sectionText}`;
+                    const resultText = `${totalVisible} ${commandText}`;
+                    if (searchResultsCount) searchResultsCount.textContent = resultText;
+                    if (searchResultsCountMobile) searchResultsCountMobile.textContent = `${totalVisible} ${commandText} in ${visibleSections} ${sectionText}`;
                 }
             }
 
-            // Debounced search event listener
+            // Debounced search event listener for both search bars
             const debouncedSearch = debounce(performSearch, 150);
-            searchBar.addEventListener('input', (e) => {
-                debouncedSearch(e.target.value);
-            });
+            
+            // Sync search bars
+            function syncSearchBars(sourceValue, targetInput, targetClearBtn) {
+                if (targetInput && targetInput.value !== sourceValue) {
+                    targetInput.value = sourceValue;
+                    toggleClearButton(targetInput, targetClearBtn, sourceValue.length > 0);
+                }
+            }
+            
+            // Add event listeners with error handling
+            if (searchBar) {
+                searchBar.addEventListener('input', (e) => {
+                    try {
+                        const value = e.target.value;
+                        debouncedSearch(value);
+                        toggleClearButton(searchBar, clearButton, value.length > 0);
+                        syncSearchBars(value, searchBarMobile, clearButtonMobile);
+                    } catch (error) {
+                        console.error('Search error:', error);
+                    }
+                });
+            }
+            
+            if (searchBarMobile) {
+                searchBarMobile.addEventListener('input', (e) => {
+                    try {
+                        const value = e.target.value;
+                        debouncedSearch(value);
+                        toggleClearButton(searchBarMobile, clearButtonMobile, value.length > 0);
+                        syncSearchBars(value, searchBar, clearButton);
+                    } catch (error) {
+                        console.error('Mobile search error:', error);
+                    }
+                });
+            }
+
+            // Clear button event listeners
+            if (clearButton) {
+                clearButton.addEventListener('click', clearSearch);
+            }
+            
+            if (clearButtonMobile) {
+                clearButtonMobile.addEventListener('click', clearSearch);
+            }
+
+            // Debug: Log search data on load
+            console.log(`Initialized search with ${commandData.length} commands across ${sections.length} sections`);
 
             // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
                 // Focus search bar with Ctrl+F or Cmd+F
                 if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
                     e.preventDefault();
-                    searchBar.focus();
+                    const activeSearchBar = window.innerWidth >= 768 ? searchBar : searchBarMobile;
+                    if (activeSearchBar) activeSearchBar.focus();
                 }
                 
                 // Clear search with Escape
-                if (e.key === 'Escape' && document.activeElement === searchBar) {
-                    searchBar.value = '';
-                    performSearch('');
-                    searchBar.blur();
+                const activeElement = document.activeElement;
+                if (e.key === 'Escape' && (activeElement === searchBar || activeElement === searchBarMobile)) {
+                    clearSearch();
+                    activeElement.blur();
                 }
             });
 
